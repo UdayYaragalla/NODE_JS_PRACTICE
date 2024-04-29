@@ -7,7 +7,7 @@ module.exports = {
         response.send(result)
     },
     addPlayer: async (request, response) => {
-        const playerDetails =  request.body
+        const playerDetails = request.body
         const result = await playerDao.addPlayer(playerDetails);
         response.send(result)
     }

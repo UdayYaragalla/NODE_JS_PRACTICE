@@ -1,25 +1,26 @@
-const model = require('../models/userModel')
+const user = require('../models')
 
 async function getUsers() {
     try {
-        const list = await model.findAll();
+        const list = await user.findAll();
         return list;
     } catch (error) {
+        throw new Error('Error while fetching user data')
     }
 }
 
 async function addUser(userObj) {
     try {
-        await model.create(userObj);
+        await user.create(userObj);
         return "User added successfully."
     } catch (err) {
         console.log("err", err);
     }
 }
 
-async function updateUser(userId,userObj) {
+async function updateUser(userId, userObj) {
     try {
-        const [numRowsAffected, updatedRows] = await model.update(userObj, {
+        const [numRowsAffected, updatedRows] = await user.update(userObj, {
             where: { user_id: userId },
             returning: true, // Return the updated rows
             plain: true // Return only the updated row, not an array
@@ -36,9 +37,9 @@ async function updateUser(userId,userObj) {
 
 async function deleteUser(id) {
     try {
-        const deletedRow = await model.destroy({
+        const deletedRow = await user.destroy({
             where: {
-                user_id : id
+                user_id: id
             }
         })
         if (deletedRow > 0) {

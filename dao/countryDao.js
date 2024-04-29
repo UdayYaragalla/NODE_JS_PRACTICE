@@ -1,9 +1,8 @@
-const countryModel = require('../models/oneToOne/countryModel')
-const capitalModel = require('../models/oneToOne/capitalModel')
+const { Country, Capital } = require('../models')
 
 async function getList() {
     try {
-        const list = await model.findAll();
+        const list = await Country.findAll();
         return list;
     } catch (err) {
         console.log(err)
@@ -12,11 +11,11 @@ async function getList() {
 
 async function addCountry(obj) {
     console.log('inside', obj)
-    const { countryName , capital } = obj
+    const { countryName, capital } = obj
     try {
-        const country = await countryModel.create({ countryName: countryName });
-        await capitalModel.create({
-            capital: capital,
+        const country = await Country.create({ countryName: countryName });
+        await Capital.create({
+            capitalName: capital,
             country_id: country.countryId
         });
 

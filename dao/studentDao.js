@@ -1,38 +1,36 @@
-const studentModel = require('../models/oneToMany/studentModel')
-const studentDetails = require('../models/oneToMany/studentDetailsModel')
-    
+const { Student, StudentDetails } = require('../models')
+
 async function getList() {
     try {
-        const list = await studentModel.findAll();
-        console.log('Inside get------------',list)
+        const list = await Student.findAll();
         return list;
     } catch (error) {
-        console.log('Error',error);
+        console.log('Error', error);
     }
 }
 
 async function addStudent(studentObj) {
     console.log(studentObj)
-    const { studentName , studentLocation } = studentObj
+    const { studentName, studentLocation } = studentObj
     try {
-        const existingStudent = await studentModel.findOne({
+        const existingStudent = await Student.findOne({
             where: { studentName: studentName }
         });
 
         if (existingStudent) {
-            await studentDetails.create({
+            await StudentDetails.create({
                 studentLocation: studentLocation,
-                student_id : existingStudent.studentId
+                student_id: existingStudent.studentId
             });
         } else {
-            const student = await studentModel.create({
-                studentName : studentName
+            const student = await Student.create({
+                studentName: studentName
             });
-    
+
             if (student) {
-                await studentDetails.create({
+                await StudentDetails.create({
                     studentLocation: studentLocation,
-                    student_id : student.studentId
+                    student_id: student.studentId
                 });
                 return 'Student details added successfully';
             } else {
@@ -40,7 +38,7 @@ async function addStudent(studentObj) {
             }
         }
     } catch (error) {
-        console.log('Error',error);
+        console.log('Error', error);
     }
 }
 

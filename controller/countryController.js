@@ -7,6 +7,7 @@ module.exports = {
     },
     addCountry: async (request, response) => {
         const countryObj = request.body
+        console.log("===================================", countryObj)
         const result = await countryDao.addCountry(countryObj);
         response.send(result)
     },

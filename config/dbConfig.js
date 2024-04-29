@@ -32,7 +32,7 @@ const sequelize = new Sequelize('nodedb', 'pic', 'picadmin', {
         max: 5,
         min: 0,
         // acquire: 30000,/*  acquire is wait time for the connection we should not mention */
-        idle:1000, /* This is the max time wait for the connection */
+        idle: 1000, /* This is the max time wait for the connection */
     },
     dialectOptions: {
         connectTimeout: 60000, // Timeout (in milliseconds) for establishing a connection
