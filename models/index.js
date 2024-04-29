@@ -1,5 +1,6 @@
 'use strict';
 
+const { glob } = require('glob')
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -18,46 +19,14 @@ if (config.use_env_variable) {
 }
 
 let fileList = [];
-async function isFileName(filePath) {
-	await fs.stat(filePath, (err, stats) => {
-		if (err) {
-		} else {
-			if (stats.isFile()) {
-				return true;
-			} else {
-				return false;
-			}
+async function getFileList() {
+	const pattern = path.join(__dirname, '**/*.js');
+	const files = glob.sync(pattern);
+	await files.forEach((file) => {
+		if (path.basename(file) != basename) {
+			fileList.push(file)
 		}
-	});
-}
-
-async function getFileNames(file) {
-	const filePath = path.join(__dirname, file)
-	await fs.readdirSync(filePath)
-		.filter((file) => {
-			if (isFileName(filePath) && file.indexOf('.') !== 0 && file.slice(-3) === '.js' && file.indexOf('.test.js') === -1) {
-				fileList.push(filePath + '/' + file)
-			}
-		})
-}
-
-
-function getFileList() {
-	fs.readdirSync(__dirname)
-		.filter(file => {
-			const filePath = path.join(__dirname, file)
-			if (file !== basename) {
-				if (isFileName(filePath) &&
-					file.indexOf('.') !== 0 &&
-					file.slice(-3) === '.js' &&
-					file.indexOf('.test.js') === -1
-				) {
-					fileList.push(filePath)
-				} else {
-					getFileNames(file)
-				};
-			}
-		})
+	})
 }
 
 getFileList();
